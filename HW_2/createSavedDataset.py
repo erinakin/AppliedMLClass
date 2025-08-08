@@ -38,6 +38,15 @@ assert tickers_data.shape[1] == 188, "Expected 188 ticker features"
 # Function to Create features for weekday, hour, month, and target labels
 # Serialize each example object to into a string
 def serialize_example(tickers, wd, hr, mo, target):
+    """Create a serialized example for TFRecord.
+    Args:
+        tickers: A numpy array of ticker values.
+        wd: Weekday as an integer.
+        hr: Hour as an integer.
+        mo: Month as an integer.
+        target: Target label as an integer.
+    Returns:
+        A serialized string of the example."""
     feature = {
         'tickers': tf.train.Feature(float_list=tf.train.FloatList(value=tickers)),
         'weekday': tf.train.Feature(int64_list=tf.train.Int64List(value=[wd])),
@@ -59,4 +68,4 @@ with tf.io.TFRecordWriter('dataset.tfrecords') as writer:
         )
         writer.write(example)
 
-print("✅ TFRecord file 'dataset.tfrecords' created successfully.")
+print("TFRecord file 'dataset.tfrecords' created successfully.")
